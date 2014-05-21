@@ -1,4 +1,8 @@
-webservice-client-api
-=====================
+webservice-client-example
+=========================
 
-An API to easily built webservice client, based on CXF.
+The example to illustrate the use of webservice-client-api.
+
+Check the doc at : <http://github.com/cedricbou/webservice-client-api>
+
+
