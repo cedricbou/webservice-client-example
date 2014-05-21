@@ -10,7 +10,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
@@ -22,6 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.predic8.wsdl.crm.crmservice._1.CRMServicePT;
 
 import fr.foop.ws.example.CRMClient;
 
@@ -164,6 +168,19 @@ public class UsageUATest {
 		assertEquals(3, client.config().servers.size());
 		assertEquals("johndoe", client.config().wsseUser.get());
 		assertEquals("password!", client.config().wssePwd.get());
+		assertEquals(true, client.config().useMock);
+		assertTrue(client.config().mockedPort.get() instanceof ClientServiceMock);
+	}
+	
+	@Test
+	public void withMockedPort() throws IOException {
+		final CRMClient client = CRMClient.builder()
+				.withProperties("full.ws.props.", ResourceUtils.props("prop-full.properties"))
+				.build(CRMClient.class);
+
+		final CRMServicePT port = client.service();
+		
+		assertTrue(port instanceof ClientServiceMock);
 	}
 
 	
